@@ -1,0 +1,12 @@
+<p>A new request for help with a club/org WordPress website as been submitted by {{ object.getFirstName() }} {{ object.getLastName() }}.</p>
+<table style="width:100%;">
+    <tr>
+        <td style="width:25%;"><strong>Contact Email: </strong></td><td>{{ object.getEmail() }}</td>
+    </tr>
+    <tr>
+        <td style="width:35%;"><strong>Club/Organization Name: </strong></td><td>{{ object.getClubOrgName() }}</td>
+    </tr>
+    <tr>
+        <td colspan="2"><strong>Additional Notes:</strong> {{ object.getAdditionalNotes() }}</td>
+    </tr>
+</table>

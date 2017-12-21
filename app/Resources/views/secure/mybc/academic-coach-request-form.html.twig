@@ -1,0 +1,51 @@
+{% block body %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/screen.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/symfony-apps/forms.css') }}">
+    <p>The purpose of the Academic Coach program is to assist students with organizing an effective pattern of on going learning and timely work completion. These are the skills of managing college!</p>
+    <ul>
+        <li>Academic Coaches are students with at least a 3.0 cumulative GPA and paid.</li>
+        <li>They meet for two one hour sessions each week.</li>
+        <li>Students have a planner/organizer on which assignments/papers and tests are recorded. Academic Coaches help list the steps leading to their completion and follow up the next meeting.</li>
+        <li>An assignment is worked on each meeting.</li>
+    </ul>
+    {# System Messages: #}
+    {%  if sys_msg_1 != '' and sys_msg_1 != null %}
+        <p>{{ sys_msg_1|raw }}</p>
+    {% else %}
+        <p>If you are interested in an Academic Coach, please respond with the following information:</p>
+
+        {{ form_start(main_form, {'attr' : {'class' : 'form-main'}}) }}
+        {% form_theme main_form 'bc-templates/form-templates/bc-fields.html.twig' %}
+        <div class="row divided">
+            {{ form_row(main_form.firstName) }} {{ form_row(main_form.lastName) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.email) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.cellPhone) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.yearInCollege) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.major) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.reasonForCoachRequest) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.recommendation) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.coachRequestNames) }}
+        </div>
+        <div class="row">
+            <p>For questions please contact: Dr. Chip Studwell, Director of Academic Support and Disability Services</p>
+            <p>Phone: 540-828-5370<br />
+                Email: <a href="mailto:cstudwell@bridgewater.edu">cstudwell@bridgewater.edu</a>
+            </p>
+        </div>
+        {{ form_end(main_form) }}
+    {% endif %}
+{% endblock %}

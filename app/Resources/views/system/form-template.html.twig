@@ -1,0 +1,75 @@
+{# app/Resources/views/system/form-template.html.twig #}
+{% form_theme form _self %}
+
+{# Bootstrap Ready Form Fields: #}
+{% block form_row %}
+    {# {{ dump(form.vars.attr.class) }} #}
+    {% if form.vars.attr.class is defined and 'new-line' in form.vars.attr.class %}
+        {# New Line: for "single fields" as in fields that are their own line force them to drop down with a clearfix #}
+        <div class="clearfix"></div>
+    {% endif %}
+    <div class="form-group {% if form.vars.attr.class is defined %}{{ form.vars.attr.class }}{% endif %}">
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+{# Field Labels #}
+{% block form_label %}
+    <label for='{{ form.vars.id }}' class='{{block('label_row_attributes')}}{% if 'label-none' in form.vars.attr.class%}invisible{% endif %}'>
+        {{ form.vars.label|raw }}
+        {% if required %}
+            <span class="required" style="font-weight:normal;font-style: italic;" title="This field is required">(required)</span>
+        {% endif %}
+    </label>
+    {% if form.vars.helper_text is defined and form.vars.helper_text != '' %}
+        <p class="input-helper-text">{{ form.vars.helper_text|raw }}</p>
+    {% endif %}
+{% endblock %}
+
+{# Textbox Widgets: #}
+{% block form_widget %}
+    <input type="text" class="form-control" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}"/>
+{% endblock %}
+
+{# Multiple Choice, Dropdown, and Radio Option Widgets: #}
+{% block choice_widget %}
+    {% spaceless %}
+        {% if expanded %}
+            <div style='margin-top:10px;'>
+                {{ block('bc_column_checkboxes_widget') }}
+            </div>
+        {% else %}
+
+            <div class='main-select-box-div'>
+                {{ block('choice_widget_collapsed') }}
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block bc_column_checkboxes_widget %}
+    {% spaceless %}
+        {% if not multiple %}
+            {% for key in form.vars.choices|keys %}
+                <div class="form-check">
+                    <label class="form-check-label" style="font-weight:normal;">
+                        <input class="form-check-input" type="radio" name="{{ form.vars.full_name }}" id="{{ form.vars.id }}_{{ key }}" value="{{ key }}">
+                        {{ form.vars.choices[key].value|raw }}
+                    </label>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if multiple %}
+
+        {% endif %}
+    {% endspaceless %}
+{% endblock bc_column_checkboxes_widget %}
+
+{# Submit Buttons: #}
+{% block submit_widget %}
+    <div class="form-group" style="padding-left:10px;">
+        <button type="submit" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" class="{{ form.vars.attr.class }}">
+            {{ form.vars.label }}
+        </button>
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+sso_main.login:
+    path: /login
+    defaults: { _controller: BCCustomSSOBundle:SSOMain:login }
+
+sso_main.login_check:
+    path: /login-check
+    defaults: { _controller: BCCustomSSOBundle:SSOMain:loginCheck }

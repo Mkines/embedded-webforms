@@ -1,0 +1,21 @@
+{% block body %}
+    <link rel="stylesheet" href="/webforms/css/screen.css">
+    <link rel="stylesheet" href="/webforms/css/symfony-apps/forms.css">
+
+    {{ form_start(main_form, {'attr' : {'class' : 'form-main', 'title' : 'Speakers Bureau Request Form'}}) }}
+    {% form_theme main_form 'bc-templates/form-templates/bc-fields.html.twig' %}
+        {%  if sys_msg_1 != '' and sys_msg_1 != null %}
+            <p>{{ sys_msg_1|raw }}</p>
+        {% endif %}
+
+        <div class="row">
+            {{ form_row(main_form.fullname) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.highSchool) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.essayAttached) }}
+        </div>
+    {{ form_end(main_form) }}
+{% endblock %}

@@ -1,0 +1,32 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+services:
+    bc_helper:
+        class: AppBundle\DependencyInjection\BCHelper
+    db_controller:
+        class: AppBundle\DependencyInjection\DBController
+        arguments: ["%database_host%", "%database_name%", "%database_user%", "%database_password%"]
+    perm_router:
+        class: AppBundle\DependencyInjection\PermissionsRouter
+    AppBundle\Form\Extension\TextTypeExtension:
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\TextType }
+    #Application Specific Services:
+    form_validator:
+        class: AppBundle\Entity\DataValidate
+        arguments:
+            - "@db_controller"
+            - "@twig"
+            - "@mailer"
+    emailer:
+        class: AppBundle\DependencyInjection\Emailer
+        arguments:
+            - "@twig"
+            - "@bc_helper"
+            - "@mailer"
+            - "@request_stack"
+    sys_messages:
+        class: AppBundle\DependencyInjection\SysMessages
+        arguments:
+            - "@db_controller"
+            - "@request_stack"

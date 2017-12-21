@@ -1,0 +1,36 @@
+<p>A new Academic Coaching Request has been submitted by {{ request_object.getFirstName() }} {{ request_object.getLastName() }}</p>
+<table style="width:100%;">
+    <tr>
+        <td>Requester's Name:</td><td><span style="color:#990022;">{{ request_object.getFirstName() }} {{ request_object.getLastName() }}</span></td>
+    </tr>
+    <tr>
+        <td>Requester's Cell Phone:</td><td><span style="color:#990022;">{{ request_object.getCellPhone() }}</span></td>
+    </tr>
+    <tr>
+        <td>Requester's Email:</td><td>{{ request_object.getEmail() }}</td>
+    </tr>
+    <tr>
+        <td>Year in College:</td><td><span style="color:#990022;">{{ request_object.getYearInCollege() }}</span></td>
+    </tr>
+    <tr>
+        <td>Major:</td>
+        <td>
+            <span style="color:#990022;">{{ request_object.getMajor() }}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>Reason you are requesting an Academic Coach:<br />
+            <span style="color:#990022;">{{ request_object.getReasonForCoachRequest() }}</span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">If someone recommended an Academic Coach to you, who was it?<br/>
+            <span style="color:#990022;">{{ request_object.getRecommendation() }}</span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">Please indicate if there is an Academic Coach you would like to request: <br />
+            <span style="color:#990022;">{{ request_object.getCoachRequestNames() }}</span>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,53 @@
+{% block body %}
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/screen.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/symfony-apps/bc-bootstrap-form.css') }}">
+
+    {{ form_start(main_view.getFormTemplateView(), {'attr' : {'class' : 'bc-form'}}) }}
+        {% form_theme main_view.getFormTemplateView() 'system/form-template.html.twig' %}
+    {{ form_end(main_view.getFormTemplateView()) }}
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        // Event Listeners:
+        $("input[name='refund_request_form[refundProcess]']").change(function () {
+            toggleCollegeBoxNumberField($(this));
+            toggleRefundProcessOtherField($(this));
+        });
+
+        function toggleCollegeBoxNumberField(eleSelected)
+        {
+            if ($("input[name='refund_request_form[refundProcess]']:checked").val() === '0')
+            {
+                // Un-hide the box number field:
+                $('#refund_request_form_refundProcessBoxNumber').parent().removeClass('hidden');
+                var collegeBoxNumberEle = $('#refund_request_form_refundProcessBoxNumber').parent();
+                // append it under the radio option selected:
+                collegeBoxNumberEle.appendTo(eleSelected.parent().parent());
+            } else {
+                $('#refund_request_form_refundProcessBoxNumber').parent().addClass('hidden');
+            }
+        }
+
+        function toggleRefundProcessOtherField(eleSelected)
+        {
+            if ($("input[name='refund_request_form[refundProcess]']:checked").val() === '3')
+            {
+                // Un-hide the other options text field:
+                $('#refund_request_form_refundProcessOther').parent().removeClass('hidden');
+                var refundProcessOtherEle = $('#refund_request_form_refundProcessOther').parent();
+                // append it under the radio option selected:
+                refundProcessOtherEle.appendTo(eleSelected.parent().parent());
+            } else {
+                $('#refund_request_form_refundProcessOther').parent().addClass('hidden');
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,13 @@
+services:
+    simplesamlphp_auth_object:
+        class: SimpleSAML\Auth\Simple
+        arguments:
+            - ['%sp_name%']
+    simplesaml_php.user_creator:
+        class: BCCustomSSOBundle\Security\User\UserCreator
+        arguments:
+            - "@=service('doctrine').getManager()"
+            - "@db_controller"
+    simplesaml_php.token_authenticator:
+        class: BCCustomSSOBundle\Security\SimplesamlPHPTokenAuthenticator
+        arguments: ["@request_stack", "@router", "@simplesaml_php.user_creator", "@simplesamlphp_auth_object", "@service_container", "@db_controller"]

@@ -1,0 +1,89 @@
+{% block body %}
+    <link rel="stylesheet" href="/webforms/css/screen.css">
+    <link rel="stylesheet" href="/webforms/css/symfony-apps/forms.css">
+
+    {{ form_start(main_form, {'attr' : {'class' : 'form-main', 'title' : 'Speakers Bureau Request Form'}}) }}
+    {% form_theme main_form 'bc-templates/form-templates/bc-fields.html.twig' %}
+        <h2 style="margin-bottom:5px;">Organization Information:</h2>
+        <p><strong>Notice:</strong> Please submit request at least four weeks in advance of the requested date.</p>
+        <div class="row">
+            {{ form_row(main_form.org) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.orgRep) }}
+        </div>
+        <div class="row">
+            {{ form_label(main_form.addressLine1) }}
+            <p class='input-helper-text' style="margin-bottom: 5px;">
+                Street address, P.O. box, company name, c/o
+            </p>
+            {{ form_widget(main_form.addressLine1) }}
+        </div>
+        <div class="row">
+            {{ form_label(main_form.addressLine2) }}
+            <p class='input-helper-text' style="margin-bottom: 5px;">
+                Apartment, suite, unit, building, floor, etc.
+            </p>
+            {{ form_widget(main_form.addressLine2) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.city) }}
+        </div>
+        <div class='row divided'>
+            {{ form_row(main_form.state) }} {{ form_row(main_form.zipcode) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.email) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.phone) }}
+        </div>
+        <h2 style="margin-bottom:5px;">Speaker/Event Information:</h2>
+        <div class="row">
+            {{ form_row(main_form.typeOfEvent) }}
+        </div>
+        <div class="row single">
+            {{ form_row(main_form.requestedDate) }}
+        </div>
+        <div class="row single">
+            {{ form_row(main_form.requestedTime) }}
+        </div>
+        <div class="row single">
+            {{ form_row(main_form.estimatedAudience) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.eventLocation) }}
+        </div>
+        <div class="row single">
+            {{ form_row(main_form.speakerFirstChoice) }}
+        </div>
+        <div class="row single">
+            {{ form_row(main_form.topicFirstChoice) }}
+        </div>
+        <br />
+        <div class="row single" style="margin-right:48px;">
+            {{ form_row(main_form.speakerSecondChoice) }}
+        </div>
+        <div class="row single">
+            {{ form_row(main_form.topicSecondChoice) }}
+        </div>
+        <div class="row">
+            {{ form_row(main_form.comments) }}
+        </div>
+    {{ form_end(main_form) }}
+{% endblock %}
+
+{% block javascript %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" link='stylesheet'  href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" link='stylesheet' href="{{ asset('css/jquery-ui-bc.css') }}">
+
+    <script src="{{ asset('bc-js/bc-master.js') }}" type="text/javascript"></script>
+    <script type='text/javascript'>
+        // Adds the bc calendar widget to the resRequestedDate Field
+        $('#speakers_bureau_request_form_requestedDate').datepicker({
+            dateFormat : 'mm/dd/yy',
+        });
+    </script>
+{% endblock %}

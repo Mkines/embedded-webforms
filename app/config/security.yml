@@ -1,0 +1,25 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+security:
+    providers:
+        db_provider:
+            entity:
+                class: BCCustomSSOBundle:User
+                property: username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+            logout: ~
+
+            guard:
+                provider: db_provider
+                authenticators:
+                    - simplesaml_php.token_authenticator
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login-check, roles: [ROLE_USER, ROLE_SUPER_USER]}
+        - { path: ^/secure, roles: [ROLE_USER, ROLE_SUPER_USER]}

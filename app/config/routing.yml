@@ -1,0 +1,13 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+    defaults:
+        title: "WebForms"
+
+simplesamlphp_sp:
+    resource: "@BCCustomSSOBundle/Resources/config/routing.yml"
+    prefix: /
+
+default_simplesaml_php_success_path:
+    path: /secure
+    defaults: { _controller: AppBundle:Default:secureLanding }

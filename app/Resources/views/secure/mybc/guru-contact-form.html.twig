@@ -1,0 +1,26 @@
+{% block body %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/screen.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/symfony-apps/forms.css') }}">
+
+    {# Form: #}
+    {# System Messages: #}
+    {% if sys_msg_1 != '' and sys_msg_1 != null %}
+        <p>{{ sys_msg_1|raw }}</p>
+    {% else %}
+        {{ form_start(main_form, {'attr' : {'class' : 'form-main'}}) }}
+        {% form_theme main_form 'bc-templates/form-templates/bc-fields.html.twig' %}
+            <div class="row divided">
+                {{ form_row(main_form.firstName) }} {{ form_row(main_form.lastName) }}
+            </div>
+            <div class="row">
+                {{ form_row(main_form.email) }}
+            </div>
+            <div class="row">
+                {{ form_row(main_form.clubOrgName) }}
+            </div>
+            <div class="row">
+                {{ form_row(main_form.additionalNotes) }}
+            </div>
+        {{ form_end(main_form) }}
+    {% endif %}
+{% endblock %}
