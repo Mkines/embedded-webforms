@@ -28,7 +28,15 @@
 
 {# Textbox Widgets: #}
 {% block form_widget %}
-    <input type="text" class="form-control" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}"/>
+    <input type="text" class="form-control" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}"/>
+{% endblock %}
+
+{# MoneyType Widget #}
+{% block money_widget %}
+    <div class="input-group">
+        <span class="input-group-addon">{{ money_pattern|replace({ '{{ widget }}':''}) }}</span>
+        <input type="text" class="form-control" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}"/>
+    </div>
 {% endblock %}
 
 {# Multiple Choice, Dropdown, and Radio Option Widgets: #}
@@ -53,7 +61,8 @@
             {% for key in form.vars.choices|keys %}
                 <div class="form-check">
                     <label class="form-check-label" style="font-weight:normal;">
-                        <input class="form-check-input" type="radio" name="{{ form.vars.full_name }}" id="{{ form.vars.id }}_{{ key }}" value="{{ key }}">
+                        <input class="form-check-input" type="radio" name="{{ form.vars.full_name }}" id="{{ form.vars.id }}_{{ key }}" value="{{ form.vars.choices[key].value|raw }}"
+                                {% if (form.vars.data == form.vars.choices[key].value) %} checked='checked'{% endif %}/>
                         {{ form.vars.choices[key].value|raw }}
                     </label>
                 </div>

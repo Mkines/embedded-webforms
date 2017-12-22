@@ -1,0 +1,10 @@
+{% block body %}
+    {% if errors is defined and errors is not empty %}
+        <span style="padding-left:15px;font-family: 'Open Sans',sans-serif;font-size:1rem;font-weight:700;color:#990022;">System Errors:</span>
+        <ul style="margin-top:0px;">
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

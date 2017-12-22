@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/screen.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/symfony-apps/bc-bootstrap-form.css') }}">
 
+    {# Form and Error Handling: #}
+    {% include 'system/form-errors-template.html.twig' %}
     {{ form_start(main_view.getFormTemplateView(), {'attr' : {'class' : 'bc-form'}}) }}
         {% form_theme main_view.getFormTemplateView() 'system/form-template.html.twig' %}
     {{ form_end(main_view.getFormTemplateView()) }}
@@ -24,7 +26,7 @@
 
         function toggleCollegeBoxNumberField(eleSelected)
         {
-            if ($("input[name='refund_request_form[refundProcess]']:checked").val() === '0')
+            if ($("input[name='refund_request_form[refundProcess]']:checked").val() === 'Resident Student - college Box #')
             {
                 // Un-hide the box number field:
                 $('#refund_request_form_refundProcessBoxNumber').parent().removeClass('hidden');
@@ -38,7 +40,7 @@
 
         function toggleRefundProcessOtherField(eleSelected)
         {
-            if ($("input[name='refund_request_form[refundProcess]']:checked").val() === '3')
+            if ($("input[name='refund_request_form[refundProcess]']:checked").val() === 'Other')
             {
                 // Un-hide the other options text field:
                 $('#refund_request_form_refundProcessOther').parent().removeClass('hidden');

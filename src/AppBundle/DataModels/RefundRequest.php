@@ -3,6 +3,7 @@
 namespace AppBundle\DataModels;
 // DataMapper:
 use AppBundle\DataAccessLayer\RefundRequestDataMapper;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class RefundRequest
 {
@@ -10,10 +11,30 @@ class RefundRequest
     protected $dataMapper;
 
     // Variables:
+    /**
+     * @Assert\NotBlank(message = "Please enter your first name.")
+     */
     private $firstName;
+
+    /**
+     * @Assert\NotBlank(message = "Please enter your last name.")
+     */
     private $lastName;
+
+    /**
+     * Description: Check to ensure the studentID entered by the user is a 5-7 digit integer and no letters
+     * @Assert\NotBlank(message = "Please enter your valid student ID number, listed on your student ID card.")
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]+/",
+     *     match=false,
+     *     message="Invalid student ID number entered.")
+     */
     private $studentId;
     private $term;
+
+    /**
+     * @Assert\NotBlank(message = "Please enter a valid U.S. dollar amount to be refunded. Do not enter a dollar sign or commas.")
+     */
     private $refundAmount;
     private $akademosVoucher;
     private $refundProcess;
@@ -25,9 +46,9 @@ class RefundRequest
     private $alternatePayeeName;
     private $userSignature;
 
-    public function __construct($db_controller)
+    public function __construct($db_controller, $validatorService)
     {
-        $this->dataMapper = new RefundRequestDataMapper($db_controller);
+        $this->dataMapper = new RefundRequestDataMapper($this, $db_controller, $validatorService);
         $this->setRefundProcessOptions();
     }
 
@@ -107,15 +128,6 @@ class RefundRequest
     public function getRefundProcessBoxNumber()
     {
         return $this->refundProcessBoxNumber;
-    }
-
-    public function setBoxNumber($boxNumber)
-    {
-        $this->boxNumber = $boxNumber;
-    }
-    public function getBoxNumber()
-    {
-        return $this->boxNumber;
     }
 
     public function setRefundProcessOther($refundProcessOther)

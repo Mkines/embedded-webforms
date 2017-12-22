@@ -1,0 +1,58 @@
+<p>A new refund request has been submitted by {{ data_model.getFirstName() }} {{ data_model.getLastName() }}.</p>
+<table style="width:100%;">
+    <tr>
+        <td><strong>User's Fullname:</strong> {{ data_model.getFirstName() }} {{ data_model.getLastName() }}</td>
+    </tr>
+    <tr>
+        <td><strong>User's Student ID#:</strong> {{ data_model.getStudentId() }}</td>
+    </tr>
+    <tr>
+        <td><strong>Refund Amount:</strong> ${{ data_model.getRefundAmount() }}</td>
+    </tr>
+    <tr>
+        <td><strong>Term:</strong> {{ data_model.getTerm() }}</td>
+    </tr>
+    <tr>
+        <td><strong>Akademos Voucher Amount:</strong> {% if data_model.getAkademosVoucher() != '' %}${{ data_model.getAkademosVoucher() }}{% else %}N/A{% endif %}</td>
+    </tr>
+    <tr>
+        <td><strong>Refund Request Payment Option:</strong> {{ data_model.getRefundProcess() }}<br />
+            {% if data_model.getRefundProcess() == 'Resident Student - college Box #' %}
+                Box # {{ data_model.getRefundProcessBoxNumber() }}
+            {% elseif data_model.getRefundProcess() == 'Other' %}
+                Other Method: {{ data_model.getRefundProcessOther() }}
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Alternate Refund Recipient:</strong> {% if data_model.getAlternatePayeeName() != '' %}{{ data_model.getAlternatePayeeName() }}{% else %}N/A{% endif %}</td>
+    </tr>
+</table>
+
+<h3>Student Accounts Office Use only below this line:</h3>
+<table style="width:100%;">
+    <tr>
+        <td>
+            <p style="margin-bottom:0px;margin-top:5px;">Please check if request is:</p>
+            [_] - in person<br />
+            [_] - By BC Email<br />
+            [_] - Other (see notes)<br />
+        </td>
+        <td>Initials: _____________________<br />
+            Date:     _____________________
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            Comments: ____________________________________________________________________________
+            ______________________________________________________________________________________
+            ______________________________________________________________________________________
+        </td>
+    </tr>
+    <tr>
+        <td>
+            [_] - Financial Aid Overpaid/Overcharged<br />
+            [_] - Dorm/Key refund
+        </td>
+    </tr>
+</table>

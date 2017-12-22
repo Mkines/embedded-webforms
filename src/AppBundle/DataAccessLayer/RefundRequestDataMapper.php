@@ -2,17 +2,23 @@
 // src/AppBundle/DataAccessLayer/RefundRequestDataMapper.php
 namespace AppBundle\DataAccessLayer;
 
+use AppBundle\AppBundle;
 use AppBundle\DependencyInjection\DBController;
+use AppBundle\DependencyInjection\Emailer;
 
 class RefundRequestDataMapper
 {
+    private $dataParentModel;
     /** @var  DBController */
     protected $db;
+    protected $validatorService;
 
     /* Main Constructor: */
-    public function __construct($db)
+    public function __construct($dataParentModel, $db, $validatorService)
     {
+        $this->dataParentModel = $dataParentModel;
         $this->db = $db;
+        $this->validatorService = $validatorService;
     }
 
     // SELECT Functions:
@@ -29,8 +35,29 @@ class RefundRequestDataMapper
     }
 
     // Data Validation Functions:
-    public function validateData()
+    public function validateData($submitName)
     {
+        /**
+         * Description: used to validate the userInputted form data from a specific source.
+         **/
+        $errors = $this->validatorService->validate($this->dataParentModel);
+        if ($submitName == 'submitRefundRequest')
+        {
+            if (count($errors) > 0) {
+                $errorsArray = array();
+                foreach ($errors as $error)
+                    array_push($errorsArray, $error->getMessage());
 
+                return $errorsArray;
+            }
+
+            return "user-input-valid";
+        }
+    }
+
+    // Emailer:
+    public function emailData($emailService)
+    {
+        $emailService->sendRefundRequestEmailToAdmin($this->dataParentModel);
     }
 }

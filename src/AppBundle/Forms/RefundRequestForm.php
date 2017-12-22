@@ -3,7 +3,6 @@
 
 namespace AppBundle\Forms;
 
-use AppBundle\System\TwigTemplate\FieldTypes\BCTextField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +16,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RefundRequestForm extends AbstractType
 {
@@ -34,9 +35,12 @@ class RefundRequestForm extends AbstractType
                 'label' => 'Student ID#:',
                 'helper_text'=>'<strong>Note:</strong> it\'s on your college issued student ID card.',
                 'attr' => array('class' => 'col-sm-4 new-line')))
-            ->add('refundAmount', TextType::class, array('required' => true, 'label' => 'Refund Amount:', 'attr' => array('class' => 'col-sm-2 short-field new-line')))
+            ->add('refundAmount', MoneyType::class, array(
+                'required' => true,
+                'currency' => 'USD',
+                'label' => 'Refund Amount:', 'attr' => array('class' => 'col-sm-2 short-field new-line')))
             ->add('term', TextType::class, array('required' => false, 'label' => 'Term:', 'attr' => array('class' => 'col-sm-2 short-field')))
-            ->add('akademosVoucher', TextType::class, array('required' => false, 'label' => 'Akademos Voucher Amount:', 'attr' => array('class' => 'col-sm-2 short-field new-line')))
+            ->add('akademosVoucher', MoneyType::class, array('required' => false, 'currency' => 'USD', 'label' => 'Akademos Voucher Amount:', 'attr' => array('class' => 'col-sm-2 short-field new-line')))
             ->add('refundProcess',ChoiceType::class, array(
                 'required' => false,
                 'choices' => $MainEntity->getRefundProcessOptions(),

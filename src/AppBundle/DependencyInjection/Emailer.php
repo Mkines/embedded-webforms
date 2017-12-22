@@ -121,4 +121,21 @@ class Emailer
 
         $emailStatus = $this->mailer->send($email);
     }
+
+    public function sendRefundRequestEmailToAdmin($dataModel)
+    {
+        $customFields = array('data_model' => $dataModel);
+        $body = $this->renderEmail('/email-templates/refund-request-submitted.html.twig', $customFields);
+
+        // Testing Server Check:
+        if ($this->getCurrentRequest()->getHost() == 'gnar.bridgewater.edu') {
+            $email = $this->buildEmailHeaders('Refund Request Submitted', 'no-reply@bridgewater.edu', $this->sysAdminEmail, $body);
+        } else {
+            $email = $this->buildEmailHeaders('Refund Request Submitted', 'no-reply@bridgewater.edu', 'brankin@bridgewater.edu', $body);
+            $email->addBcc('tweisman@bridgewater.edu');
+        }
+
+        $emailStatus = $this->mailer->send($email);
+    }
+
 }

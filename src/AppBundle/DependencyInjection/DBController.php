@@ -142,6 +142,29 @@ class DBController
         }
     }
 
+    public function build_class_data_array($dataModel)
+    {
+        /**
+         * Description: this very simply looks at the current dataModel passed into the function and converts the getter fields into array keys and values. This array is returned and
+         * can be stored in a session variable to reload the dataModel with on a page refresh.
+         */
+        $_classMethods = get_class_methods($dataModel);
+        $dataArray = array();
+        foreach ($_classMethods as $methodName)
+        {
+            $tempVarName = preg_split('/(?=[A-Z])/',$methodName);
+            if ($tempVarName[0] == 'get' && !is_object($dataModel->$methodName())) {
+                $var_name = $this->convert_camel_to_db_key($methodName);
+                $var_name = explode('get_', $var_name);
+                $var_name = $var_name[1];
+
+                $dataArray[$var_name] = $dataModel->$methodName();
+            }
+        }
+
+        return $dataArray;
+    }
+
     public function convert_camel_to_db_key($key)
     {
         /**
@@ -163,16 +186,30 @@ class DBController
         return $tempKey;
     }
 
-   public function build_array_from_ch_query($queryData, $textField, $chField)
-   {
+    public function convert_db_key_to_camel($key)
+    {
         /**
-         * Description: this function converts queried data for a checkbox array, and makes it useable for the symfony form. (It comes out as a pdo object which I can't do much with.
+         * Description: this function transforms return queried field names from mysql into my class setter function names. This makes
+         * re-inputting saved data into a form easy.
+         * Called from withing Form Entities refillData() function
          */
-        $tempArray = array();
-        while ($queryData != false && $row = $queryData->fetch(\PDO::FETCH_ASSOC)) {
-            $tempArray[$row[$textField]] = $row[$chField];
+        $tempString = explode("_",$key);
+        $tempKey = "set";
+        foreach($tempString as $string) {
+            $tempKey.= ucfirst($string);
         }
-   
-        return $tempArray;
-   }
+        $key = $tempKey;
+        return $key;
+    }
+
+    public function setObjectData($rawData, $dataModel)
+    {
+        // Takes raw database arrays and sets the data into the dataModel object
+        foreach ($rawData as $key=>$val)
+        {
+            $functionName = $this->convert_db_key_to_camel($key);
+            if (method_exists($dataModel, $functionName))
+                $dataModel->$functionName($val);
+        }
+    }
 }

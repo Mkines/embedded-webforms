@@ -127,23 +127,32 @@ class PublicController extends Controller
         $currentRoute = $request->attributes->get('_route');
 
         /** SESSION and GET Variables: **/
-        $sysMsg1 = $this->get('session')->get('sys-msg-1');
-        $this->get('session')->remove('sys-msg-1');
+        $sysErrors = $this->get('session')->get('errors');
+        $this->get('session')->remove('errors');
+        $previousData = $this->get('session')->get('previousData');
+        $this->get('session')->remove('previousData');
 
         /** Check User Permissions to access the page: **/
         // public...
 
         /** Page View and Form Objects: **/
         $MainView = new GenericFormEntity(
-            'AppBundle\DataModels\RefundRequest', '\AppBundle\Forms\RefundRequestForm',
-            $this->get('db_controller'), $this->get('emailer'), $this->get('form.factory')
+            'AppBundle\DataModels\RefundRequest', '\AppBundle\Forms\RefundRequestForm', $previousData,
+            $this->get('db_controller'), $this->get('emailer'), $this->get('form.factory'), $this->get('validator'), $this->get('session')
         );
 
-
         $MainView->getFormTemplate()->handleRequest($request);
-        if ($MainView->getFormTemplate()->isSubmitted() && $MainView->getFormTemplate()->get('submitForm')->isClicked())
+        if ($MainView->getFormTemplate()->isSubmitted())
         {
-            $MainView->formPost(array('validate'));
+            if ($MainView->getFormTemplate()->get('submitForm')->isClicked())
+            {
+                $returnRoute = $currentRoute;
+                $submitProcess = array('validateData', 'emailData');
+                $submitName = 'submitRefundRequest';
+            }
+
+            $formResponse = $MainView->formPost($submitProcess, $submitName);
+            return $this->redirectToRoute($returnRoute);
         }
         else
         {
@@ -155,9 +164,9 @@ class PublicController extends Controller
                 'current_path'=>$currentRoute,
                 'bc_helper'=>$this->get('bc_helper'),
                 'permissions'=>null,
+                'errors'=>$sysErrors,
                 //'side_navigation_v2'=>$this->get('side_nav'),
                 // Page Specific:
-                'sys_msg_1'=>$sysMsg1,
                 'main_view' => $MainView,
             ]);
         }
